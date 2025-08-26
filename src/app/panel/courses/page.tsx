@@ -1,7 +1,49 @@
-import React from "react";
+import { columns, Course } from "./table/columns";
+import { CourseTable } from "./table/course-table";
 
-function page() {
-  return <div>page</div>;
+async function getData(): Promise<Course[]> {
+  // Fetch data from your API here.
+  return [
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "m@example.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 500,
+      status: "processing",
+      email: "p@example.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 1000,
+      status: "success",
+      email: "k@example.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 1000,
+      status: "failed",
+      email: "s@example.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 1000,
+      status: "success",
+      email: "a@example.com",
+    },
+    // ...
+  ];
 }
 
-export default page;
+export default async function Page() {
+  const data = await getData();
+
+  return (
+    <div className="py-10">
+      <CourseTable columns={columns} data={data} />
+    </div>
+  );
+}
