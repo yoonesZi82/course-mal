@@ -3,6 +3,7 @@
 import * as React from "react";
 import {
   Bot,
+  Clapperboard,
   Github,
   ListFilter,
   NotebookPen,
@@ -45,6 +46,11 @@ const data = {
           title: "Add Course",
           url: "/panel/courses/add",
           icon: Plus,
+        },
+        {
+          title: "Add Video to Course",
+          url: "/panel/courses/add-video",
+          icon: Clapperboard,
         },
         {
           title: "Settings",

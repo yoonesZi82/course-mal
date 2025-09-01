@@ -21,7 +21,7 @@ function ChangeTheme() {
 
   if (!mounted) {
     return (
-      <Button variant="outline" size="icon">
+      <Button variant="outline" size="icon" className="rounded-xl">
         <LaptopMinimal />
       </Button>
     );
@@ -30,7 +30,7 @@ function ChangeTheme() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button variant="outline" size="icon" className="rounded-xl">
           {theme === "system" ? (
             <LaptopMinimal />
           ) : theme === "dark" ? (

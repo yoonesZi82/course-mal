@@ -1,5 +1,5 @@
-import { columns, Course } from "./table/columns";
-import { CourseTable } from "./table/course-table";
+import { columns, Course } from "./components/table/columns";
+import { CourseTable } from "./components/table/course-table";
 
 async function getData(): Promise<Course[]> {
   // Fetch data from your API here.

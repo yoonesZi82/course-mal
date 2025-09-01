@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import Uploader from "@/app/panel/components/uploader-media/uploader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,12 +19,13 @@ import InputIcon from "@/components/input-icon/InputIcon";
 import {
   BadgeDollarSign,
   BadgePercent,
-  BookOpen,
   BookUp2,
   PencilLine,
   Plus,
 } from "lucide-react";
 import ErrorAlert from "./alert/error-alert";
+import FileUpload from "@/components/kokonutui/file-upload";
+import customToast from "@/components/ui/custom-toast";
 
 function FormAddCourse() {
   const courseForm = useForm<z.infer<typeof courseSchema>>({
@@ -59,15 +59,29 @@ function FormAddCourse() {
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormControl>
-                  <Uploader
-                    accept={{
-                      "image/*": [".jpg", ".jpeg", ".png", ".webp"],
+                  <FileUpload
+                    title="Poster"
+                    onUploadSuccess={(file) => {
+                      field.onChange(file);
+                      customToast({
+                        title: "Upload photo successfully",
+                        variant: "success",
+                      });
                     }}
-                    multiple={false}
-                    maxFiles={1}
-                    maxSize={5 * 1024 * 1024}
-                    titleDrop="Poster"
-                    onChange={(files) => field.onChange(files?.[0])}
+                    onUploadError={() => {
+                      customToast({
+                        title: "Upload photo failed",
+                        variant: "destructive",
+                      });
+                    }}
+                    acceptedFileTypes={[
+                      "image/jpeg",
+                      "image/png",
+                      "image/webp",
+                    ]}
+                    maxFileSize={5 * 1024 * 1024}
+                    currentFile={field.value}
+                    onFileRemove={() => field.onChange(null)}
                   />
                 </FormControl>
 
@@ -86,15 +100,25 @@ function FormAddCourse() {
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormControl>
-                  <Uploader
-                    accept={{
-                      "video/*": [".mp4", ".MOV", ".AVI", ".webm"],
+                  <FileUpload
+                    title="Video"
+                    onUploadSuccess={(file) => {
+                      field.onChange(file);
+                      customToast({
+                        title: "Upload video successfully",
+                        variant: "success",
+                      });
                     }}
-                    multiple={false}
-                    maxFiles={1}
-                    maxSize={50 * 1024 * 1024}
-                    titleDrop="Video"
-                    onChange={(files) => field.onChange(files?.[0])}
+                    onUploadError={() => {
+                      customToast({
+                        title: "Upload video failed",
+                        variant: "destructive",
+                      });
+                    }}
+                    acceptedFileTypes={["video/mp4", "video/webm"]}
+                    maxFileSize={50 * 1024 * 1024}
+                    currentFile={field.value}
+                    onFileRemove={() => field.onChange(null)}
                   />
                 </FormControl>
 
@@ -107,7 +131,7 @@ function FormAddCourse() {
             )}
           />
         </div>
-        <div className="flex flex-col gap-10 p-2 h-full">
+        <div className="flex flex-col gap-10 h-full">
           <FormField
             control={courseForm.control}
             name="title"
