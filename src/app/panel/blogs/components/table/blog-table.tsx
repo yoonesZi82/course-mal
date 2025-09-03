@@ -43,7 +43,7 @@ interface CourseTableProps<TData, TValue> {
   hidePagination?: boolean;
 }
 
-export function CourseTable<TData, TValue>({
+export function BlogTable<TData, TValue>({
   columns,
   data,
   hideFilter = false,

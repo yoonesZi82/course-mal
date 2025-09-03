@@ -26,13 +26,13 @@ function InputIcon({
   const formattedValue =
     priceMode && typeof value === "number"
       ? value.toLocaleString()
-      : value ?? "";
+      : (value ?? "");
 
   return (
     <div
       className={cn(
         "flex items-center selection:bg-primary dark:bg-input/30 shadow-xs border border-input rounded-md selection:text-primary-foreground placeholder:text-muted-foreground",
-        classNames?.box
+        classNames?.box,
       )}
     >
       <div className={cn("flex items-center px-2", classNames?.icon)}>
@@ -43,7 +43,7 @@ function InputIcon({
         placeholder={placeholder}
         className={cn(
           "!bg-transparent !shadow-none py-5 !border-0 !rounded-none focus-visible:ring-0 focus-visible:ring-offset-0",
-          classNames?.input
+          classNames?.input,
         )}
         value={formattedValue}
         onChange={(e) => {

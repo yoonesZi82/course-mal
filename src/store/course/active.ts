@@ -27,6 +27,6 @@ export const useCourseStore = create<CourseState>()(
     {
       name: "course-status",
       storage: createJSONStorage(() => localStorage),
-    }
-  )
+    },
+  ),
 );

@@ -4,6 +4,7 @@ import * as React from "react";
 import {
   Bot,
   Github,
+  Home,
   ListFilter,
   NotebookPen,
   Plus,
@@ -30,6 +31,12 @@ const data = {
     avatar: "/avatars/yoones.jpg",
   },
   navMain: [
+    {
+      title: "Dashboard",
+      url: "/panel",
+      icon: Home,
+      isActive: true,
+    },
     {
       title: "Courses",
       url: "#",
@@ -61,7 +68,7 @@ const data = {
       items: [
         {
           title: "List Blogs",
-          url: "#",
+          url: "/panel/blogs",
           icon: ListFilter,
         },
         {
@@ -143,13 +150,13 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon" {...props}>
-      <SidebarContent>
+    <Sidebar collapsible="icon" className="!bg-background" {...props}>
+      <SidebarContent className="!bg-background">
         <NavMain items={data.navMain} />
         <NavOther title="Connections" other={data.connections} />
         <NavOther title="Applications" other={data.applications} />
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="!bg-background">
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>

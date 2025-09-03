@@ -27,6 +27,6 @@ export const useCourseLockStore = create<CourseLockState>()(
     {
       name: "course-lock",
       storage: createJSONStorage(() => localStorage),
-    }
-  )
+    },
+  ),
 );

@@ -25,7 +25,7 @@ export const courseSchema = z.object({
       (file) => ["image/jpeg", "image/png", "image/webp"].includes(file.type),
       {
         message: "Poster must be JPEG, PNG, or WEBP",
-      }
+      },
     )
     .refine((file) => file.size <= 5 * 1024 * 1024, {
       message: "Poster must be less than 5MB",
@@ -36,11 +36,11 @@ export const courseSchema = z.object({
     .refine(
       (file) =>
         ["video/mp4", "video/webm", "video/mov", "video/avi"].includes(
-          file.type
+          file.type,
         ),
       {
         message: "Video must be MP4, WEBM, MOV, or AVI",
-      }
+      },
     )
     .refine((file) => file.size <= 50 * 1024 * 1024, {
       message: "Video must be less than 50MB",

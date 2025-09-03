@@ -28,7 +28,7 @@ function customToast({ title, variant }: CustomToastProps) {
         ),
         {
           duration: 5000,
-        }
+        },
       )}
     </>
   );

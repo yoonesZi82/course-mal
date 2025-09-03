@@ -12,7 +12,7 @@ export default function LayoutPanel({
       <AppSidebar />
       <SidebarInset className="flex flex-col gap-4 w-full">
         <HeaderPanel />
-        <main className="pb-4 w-full container">{children}</main>
+        <main className="pb-8 w-full container">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );
