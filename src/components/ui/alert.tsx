@@ -4,24 +4,24 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const alertVariants = cva(
-  "relative items-start gap-y-0.5 has-[>svg]:gap-x-3 grid grid-cols-[0_1fr] has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] px-4 py-3 border rounded-lg w-full [&>svg]:size-4 [&>svg]:text-current text-sm [&>svg]:translate-y-0.5",
+  "relative items-start gap-y-0.5 has-[>svg]:gap-x-3 grid grid-cols-[0_1fr] has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] bg-card px-4 py-3 border rounded-lg w-full [&>svg]:size-4 [&>svg]:text-current text-sm [&>svg]:translate-y-0.5",
   {
     variants: {
       variant: {
-        default: "bg-card text-card-foreground",
+        default: " text-card-foreground",
         destructive:
-          "text-destructive bg-card [&>svg]:text-current *:data-[slot=alert-description]:text-destructive/90",
+          "text-destructive  border border-destructive [&>svg]:text-current *:data-[slot=alert-description]:text-destructive/90",
         success:
-          "text-green-500 bg-green-100 *:data-[slot=alert-description]:text-green/90",
-        info: "text-blue-500 bg-blue-100 *:data-[slot=alert-description]:text-blue/90",
+          "text-green-500 border border-green-500 *:data-[slot=alert-description]:text-green/90",
+        info: "text-blue-500  border border-blue-500 *:data-[slot=alert-description]:text-blue/90",
         warning:
-          "text-yellow-500 bg-yellow-100 *:data-[slot=alert-description]:text-yellow/90",
+          "text-yellow-500  border border-yellow-500 *:data-[slot=alert-description]:text-yellow/90",
       },
     },
     defaultVariants: {
       variant: "default",
     },
-  },
+  }
 );
 
 function Alert({
@@ -45,7 +45,7 @@ function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
       data-slot="alert-title"
       className={cn(
         "col-start-2 min-h-4 font-medium line-clamp-1 tracking-tight",
-        className,
+        className
       )}
       {...props}
     />
@@ -61,7 +61,7 @@ function AlertDescription({
       data-slot="alert-description"
       className={cn(
         "justify-items-start gap-1 grid col-start-2 text-muted-foreground text-sm [&_p]:leading-relaxed",
-        className,
+        className
       )}
       {...props}
     />

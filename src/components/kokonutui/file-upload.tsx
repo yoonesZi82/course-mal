@@ -277,7 +277,7 @@ export default function FileUpload({
       }
       return null;
     },
-    [maxFileSize],
+    [maxFileSize]
   );
 
   const validateFileType = useCallback(
@@ -295,7 +295,7 @@ export default function FileUpload({
       }
       return null;
     },
-    [acceptedFileTypes],
+    [acceptedFileTypes]
   );
 
   const handleError = useCallback(
@@ -309,7 +309,7 @@ export default function FileUpload({
         setStatus("idle");
       }, 3000);
     },
-    [onUploadError],
+    [onUploadError]
   );
 
   const simulateUpload = useCallback(
@@ -320,34 +320,31 @@ export default function FileUpload({
         clearInterval(uploadIntervalRef.current);
       }
 
-      uploadIntervalRef.current = setInterval(
-        () => {
-          currentProgress += UPLOAD_STEP_SIZE;
-          if (currentProgress >= 100) {
+      uploadIntervalRef.current = setInterval(() => {
+        currentProgress += UPLOAD_STEP_SIZE;
+        if (currentProgress >= 100) {
+          if (uploadIntervalRef.current) {
+            clearInterval(uploadIntervalRef.current);
+          }
+          setProgress(0);
+          setStatus("idle");
+          // setFile(null);
+          onUploadSuccess?.(uploadingFile);
+        } else {
+          setStatus((prevStatus) => {
+            if (prevStatus === "uploading") {
+              setProgress(currentProgress);
+              return "uploading";
+            }
             if (uploadIntervalRef.current) {
               clearInterval(uploadIntervalRef.current);
             }
-            setProgress(0);
-            setStatus("idle");
-            // setFile(null);
-            onUploadSuccess?.(uploadingFile);
-          } else {
-            setStatus((prevStatus) => {
-              if (prevStatus === "uploading") {
-                setProgress(currentProgress);
-                return "uploading";
-              }
-              if (uploadIntervalRef.current) {
-                clearInterval(uploadIntervalRef.current);
-              }
-              return prevStatus;
-            });
-          }
-        },
-        uploadDelay / (100 / UPLOAD_STEP_SIZE),
-      );
+            return prevStatus;
+          });
+        }
+      }, uploadDelay / (100 / UPLOAD_STEP_SIZE));
     },
-    [onUploadSuccess, uploadDelay],
+    [onUploadSuccess, uploadDelay]
   );
 
   const handleFileSelect = useCallback(
@@ -387,7 +384,7 @@ export default function FileUpload({
       validateFileType,
       validateFile,
       handleError,
-    ],
+    ]
   );
 
   const handleDragOver = useCallback((e: DragEvent<HTMLDivElement>) => {
@@ -411,7 +408,7 @@ export default function FileUpload({
       const droppedFile = e.dataTransfer.files?.[0];
       if (droppedFile) handleFileSelect(droppedFile);
     },
-    [status, handleFileSelect],
+    [status, handleFileSelect]
   );
 
   const handleFileInputChange = useCallback(
@@ -420,7 +417,7 @@ export default function FileUpload({
       handleFileSelect(selectedFile || null);
       if (e.target) e.target.value = "";
     },
-    [handleFileSelect],
+    [handleFileSelect]
   );
 
   const triggerFileInput = useCallback(() => {
@@ -444,7 +441,7 @@ export default function FileUpload({
       <div
         className={cn(
           "group relative bg-white dark:bg-black p-0.5 rounded-xl ring-1 ring-gray-200 dark:ring-white/10 w-full",
-          file && status === "idle" && "opacity-40 cursor-not-allowed ",
+          file && status === "idle" && "opacity-40 cursor-not-allowed "
         )}
       >
         {file && status === "idle" && (
@@ -456,13 +453,13 @@ export default function FileUpload({
           <div
             className={cn(
               "relative bg-white dark:bg-black/50 mx-auto py-2 border border-border border-dashed rounded-lg w-full overflow-hidden",
-              error ? "border-destructive" : "",
+              error ? "border-destructive" : ""
             )}
           >
             <div
               className={cn(
                 "absolute inset-0 transition-opacity duration-300",
-                status === "dragging" ? "opacity-100" : "opacity-0",
+                status === "dragging" ? "opacity-100" : "opacity-0"
               )}
             >
               <div className="top-0 absolute inset-x-0 bg-gradient-to-b from-blue-500/10 to-transparent h-[20%]" />
@@ -633,7 +630,9 @@ export default function FileUpload({
               onClick={() => setIsOpen(true)}
             >
               <TvMinimalPlay size={16} />
-              <p className="text-sm truncate">{file.name}</p>
+              <div className="max-w-[150px] lg:max-w-[300px] overflow-hidden text-ellipsis">
+                <p className="text-sm truncate">{file.name}</p>
+              </div>
             </div>
             <Button
               type="button"
