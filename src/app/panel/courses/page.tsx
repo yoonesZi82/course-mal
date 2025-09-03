@@ -1,41 +1,10 @@
-import { columns, Course } from "./components/table/columns";
+import { courses } from "@/data/course";
+import { columns } from "./components/table/columns";
 import { CourseTable } from "./components/table/course-table";
+import { CourseType } from "@/types/course.type";
 
-async function getData(): Promise<Course[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 500,
-      status: "processing",
-      email: "p@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 1000,
-      status: "success",
-      email: "k@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 1000,
-      status: "failed",
-      email: "s@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 1000,
-      status: "success",
-      email: "a@example.com",
-    },
-    // ...
-  ];
+async function getData(): Promise<CourseType[]> {
+  return courses;
 }
 
 export default async function Page() {

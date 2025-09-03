@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -45,6 +44,8 @@ function FormAddCourse() {
   function addCourse(data: z.infer<typeof courseSchema>) {
     console.log(data);
   }
+
+  const discountValue = courseForm.watch("discount");
 
   return (
     <Form {...courseForm}>
@@ -140,7 +141,7 @@ function FormAddCourse() {
                 <FormControl>
                   <InputIcon
                     icon={PencilLine}
-                    placeholder="Course Name"
+                    placeholder="Course Title ..."
                     {...field}
                   />
                 </FormControl>
@@ -162,7 +163,7 @@ function FormAddCourse() {
                 <FormControl>
                   <InputIcon
                     icon={BookUp2}
-                    placeholder="Version of course"
+                    placeholder="Version of course ..."
                     {...field}
                   />
                 </FormControl>
@@ -184,7 +185,7 @@ function FormAddCourse() {
                   <InputIcon
                     icon={BadgePercent}
                     type="number"
-                    placeholder="Discount of course"
+                    placeholder="Discount of course ..."
                     value={field.value}
                     onChange={(e) => {
                       if (Number(e.target.value) < 0) {
@@ -214,7 +215,7 @@ function FormAddCourse() {
                 <FormControl>
                   <InputIcon
                     icon={BadgeDollarSign}
-                    placeholder="Price of course"
+                    placeholder="Price of course ..."
                     priceMode
                     value={field.value}
                     onChange={(e) => field.onChange(Number(e.target.value))}
@@ -236,7 +237,7 @@ function FormAddCourse() {
               <FormItem className="w-full">
                 <FormControl>
                   <Textarea
-                    placeholder="Description of course"
+                    placeholder="Description of course ..."
                     className="py-5 min-h-50 resize-none"
                     {...field}
                   />
@@ -258,7 +259,7 @@ function FormAddCourse() {
                 <FormControl>
                   <div className="flex flex-col gap-2">
                     <Switch
-                      checked={field.value}
+                      checked={discountValue === 100 ? false : field.value}
                       onCheckedChange={field.onChange}
                     />
                     <p className="font-medium text-muted-foreground text-sm">

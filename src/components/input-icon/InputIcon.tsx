@@ -2,10 +2,16 @@ import React from "react";
 import { Input } from "../ui/input";
 import { Separator } from "../ui/separator";
 import { LucideIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface InputIconProps extends React.ComponentProps<"input"> {
   icon: LucideIcon;
-  priceMode?: boolean; // 👈 اینو اضافه کردم برای فرمت عددی
+  priceMode?: boolean;
+  classNames?: {
+    input?: string;
+    icon?: string;
+    box?: string;
+  };
 }
 
 function InputIcon({
@@ -14,6 +20,7 @@ function InputIcon({
   priceMode,
   onChange,
   value,
+  classNames,
   ...props
 }: InputIconProps) {
   const formattedValue =
@@ -22,14 +29,22 @@ function InputIcon({
       : value ?? "";
 
   return (
-    <div className="flex items-center selection:bg-primary dark:bg-input/30 border border-input rounded-md selection:text-primary-foreground placeholder:text-muted-foreground">
-      <div className="flex items-center px-2">
+    <div
+      className={cn(
+        "flex items-center selection:bg-primary dark:bg-input/30 shadow-xs border border-input rounded-md selection:text-primary-foreground placeholder:text-muted-foreground",
+        classNames?.box
+      )}
+    >
+      <div className={cn("flex items-center px-2", classNames?.icon)}>
         {React.createElement(icon, { size: 16 })}
       </div>
       <Separator orientation="vertical" />
       <Input
         placeholder={placeholder}
-        className="!bg-transparent py-5 !border-0"
+        className={cn(
+          "!bg-transparent !shadow-none py-5 !border-0 !rounded-none focus-visible:ring-0 focus-visible:ring-offset-0",
+          classNames?.input
+        )}
         value={formattedValue}
         onChange={(e) => {
           if (priceMode) {

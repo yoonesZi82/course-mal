@@ -30,7 +30,11 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Search } from "lucide-react";
+import InputIcon from "@/components/input-icon/InputIcon";
+import { AnimatePresence, motion } from "framer-motion";
+import { Trash2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface CourseTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -45,7 +49,7 @@ export function CourseTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 2 });
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
 
   const table = useReactTable({
     data,
@@ -68,43 +72,83 @@ export function CourseTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
   });
 
+  const allPageRowsSelected =
+    table.getRowModel().rows.length > 0 &&
+    table.getRowModel().rows.every((row) => row.getIsSelected());
+
   return (
     <div className="flex flex-col gap-4 w-full">
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+      <div className="flex lg:flex-row flex-col justify-between gap-4 py-4">
+        <InputIcon
+          icon={Search}
+          placeholder="Filter by title..."
+          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("title")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          classNames={{
+            box: "w-full lg:max-w-sm",
+          }}
         />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex justify-center items-center gap-2 overflow-hidden">
+          <AnimatePresence>
+            {allPageRowsSelected && (
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 50 }}
+                transition={{ duration: 0.3 }}
+                className="w-1/2"
+              >
+                <Button
+                  variant="destructive"
+                  size="lg"
+                  onClick={() => {
+                    const selected = table.getSelectedRowModel().rows;
+                    console.log("Deleting:", selected);
+                  }}
+                  className="w-full lg:w-auto"
+                >
+                  <Trash2 className="mr-2 w-5 h-5" />
+                  Delete
+                </Button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                size="lg"
+                className={cn(
+                  "w-full lg:w-auto",
+                  allPageRowsSelected && "w-1/2"
+                )}
+              >
+                Columns <ChevronDown />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {table
+                .getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => {
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) =>
+                        column.toggleVisibility(!!value)
+                      }
+                    >
+                      {column.id}
+                    </DropdownMenuCheckboxItem>
+                  );
+                })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
       <div className="border rounded-md w-full overflow-hidden">
         <Table>
