@@ -80,9 +80,9 @@ interface TooltipProps {
   label?: string;
 }
 
-const CustomTooltip = ({ active, payload }: TooltipProps) => {
+const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
   if (active && payload && payload.length) {
-    const data = payload[0].payload;
+    const data = payload[0].payload as { date: string; value: number };
     return (
       <div className="bg-popover shadow-lg p-3 border border-border rounded-lg">
         <div className="mb-1 text-muted-foreground text-sm">{data.date}</div>
